@@ -19,16 +19,23 @@ def driver():
     
     plt.ion()
     
-    data = selection_sort(data, plt)
+    result = bubble_sort(data, plt)
+    data = result[0]
+    title = result[1]
     
+    plt.title(title)
+    plt.bar(np.arange(len(data)), data, align='center', alpha=0.5, color='g')
+    plt.draw()
+    plt.pause(0.001)
     
 def plot_graph(data, graph, title):
     graph.title(title)
     graph.bar(np.arange(len(data)), data, align='center', alpha=0.5)
     graph.draw()
-    graph.pause(0.0005)
+    graph.pause(0.001)
     
 def bubble_sort(data, graph):
+    title = "Bubble Sort"
     n = len(data)
     swap = False
     
@@ -41,11 +48,11 @@ def bubble_sort(data, graph):
         if swap == False:
             break
         
-        plot_graph(data, graph, "Bubble Sort")
-    return data
+        plot_graph(data, graph, title)
+    return data, title
 
 def selection_sort(data, graph):
-    graph.title('Selection Sort')
+    title = "Selection Sort"
     for i in range(len(data)):
         min_index = i
         for j in range(i+1, len(data)):
@@ -54,5 +61,39 @@ def selection_sort(data, graph):
         
         data[i], data[min_index] = data[min_index], data[i]
         
-        plot_graph(data, graph, "Selection Sort")
-    return data
+        plot_graph(data, graph, title)
+    return data, title
+
+def merge_sort(data, graph):
+    title = "Merge Sort"
+    if len(data) > 1:
+        mid = len(data)//2
+        l = data[:mid]
+        r = data[mid:]
+        
+        merge_sort(l, graph)
+        merge_sort(r, graph)
+        
+        i = j = k = 0
+        while i < len(l) and j < len(r):
+            if l[i] < r[j]:
+                data[k] = l[i]
+                i += 1
+            else:
+                data[k] = r[j]
+                j += 1
+            k += 1
+            
+        while i < len(l):
+            data[k] = l[i]
+            i += 1
+            k += 1
+            
+        while j < len(r):
+            data[k] = r[j]
+            j += 1
+            k += 1
+            
+        plot_graph(data, graph, title)
+    return data, title
+    
