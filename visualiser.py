@@ -29,6 +29,8 @@ class App(tk.Tk):
         self.Fig = matplotlib.figure.Figure(figsize=(5,4),dpi=100)
         self.FigSubPlot = self.Fig.add_subplot(111)
         self.graph = self.FigSubPlot.bar(np.arange(len(self.data)), self.data, align='center', alpha=0.5)
+        self.FigSubPlot.set_xlabel('List Size', fontsize = 10)
+        self.FigSubPlot.set_ylabel('Data Values', fontsize = 8)
         self.canvas = FigureCanvasTkAgg(self.Fig, master=self)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
     
@@ -49,6 +51,8 @@ class App(tk.Tk):
     def refresh_graph(self, data):
         self.FigSubPlot.clear()
         self.FigSubPlot.set_title(self.title)
+        self.FigSubPlot.set_xlabel('List Size', fontsize = 10)
+        self.FigSubPlot.set_ylabel('Data Values', fontsize = 8)
         if self.isSorted == False:
             self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5)
         else:
