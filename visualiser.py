@@ -18,9 +18,12 @@ class App(tk.Tk):
         tk.Tk.__init__(self, parent)
         self.title("Sorting Algorithm Visualisation")
         self.data = []
-        for i in range(100):
+        self.unsorted_data = []
+        self.data_length = 51
+        for i in range(self.data_length):
             self.data.append(random.randint(0, 1000))
-
+        self.unsorted_data = self.data.copy()
+        
         self.title = ""
         self.isSorted = False
         self.Fig = matplotlib.figure.Figure(figsize=(5,4),dpi=100)
@@ -36,37 +39,47 @@ class App(tk.Tk):
     
     def newData(self):
         self.data = []
-        for i in range(100):
+        for i in range(self.data_length):
             self.data.append(random.randint(0, 1000))
-            
+        self.unsorted_data = self.data.copy()
+        self.isSorted = False
         self.refresh_graph(self.data)
         
     def refresh_graph(self, data):
         self.FigSubPlot.clear()
         self.FigSubPlot.set_title(self.title)
-        self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5)
+        if self.isSorted == False:
+            self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5)
+        else:
+            self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5, color="g")
         self.canvas.draw()
         
     def start_selection(self):
         if self.isSorted:
-            self.newData()
+            self.data = self.unsorted_data.copy()
             self.isSorted = False
-        self.selection_sort(self.data)
+            self.refresh_graph(self.data)
+        self.data = self.selection_sort(self.data)
         self.isSorted = True
+        self.refresh_graph(self.data)
         
     def start_bubble(self):
         if self.isSorted:
-            self.newData()
+            self.data = self.unsorted_data.copy()
             self.isSorted = False
-        self.bubble_sort(self.data)
+            self.refresh_graph(self.data)
+        self.data = self.bubble_sort(self.data)
         self.isSorted = True
+        self.refresh_graph(self.data)
         
     def start_merge(self):
         if self.isSorted:
-            self.newData()
+            self.data = self.unsorted_data.copy()
             self.isSorted = False
-        self.merge_sort(self.data)
+            self.refresh_graph(self.data)
+        self.data = self.merge_sort(self.data)
         self.isSorted = True
+        self.refresh_graph(self.data)
         
     def bubble_sort(self, data):
         self.title = "Bubble Sort"
