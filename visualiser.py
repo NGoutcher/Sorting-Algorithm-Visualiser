@@ -36,6 +36,7 @@ class App(tk.Tk):
         buttonBubbleSort = tk.Button(self, text="Bubble Sort", command=self.start_bubble).pack(side=tk.LEFT)
         buttonSelectionSort = tk.Button(self, text="Selection Sort", command=self.start_selection).pack(side=tk.LEFT)
         buttonMergeSort = tk.Button(self, text="Merge Sort", command=self.start_merge).pack(side=tk.LEFT)
+        buttonInsertionSort = tk.Button(self, text="Insertion Sort", command=self.start_insertion).pack(side=tk.LEFT)
     
     def newData(self):
         self.data = []
@@ -78,6 +79,15 @@ class App(tk.Tk):
             self.isSorted = False
             self.refresh_graph(self.data)
         self.data = self.merge_sort(self.data)
+        self.isSorted = True
+        self.refresh_graph(self.data)
+        
+    def start_insertion(self):
+        if self.isSorted:
+            self.data = self.unsorted_data.copy()
+            self.isSorted = False
+            self.refresh_graph(self.data)
+        self.data = self.insertion_sort(self.data)
         self.isSorted = True
         self.refresh_graph(self.data)
         
@@ -141,6 +151,20 @@ class App(tk.Tk):
                 j += 1
                 k += 1
                 
+            self.refresh_graph(data)
+        return data
+    
+    def insertion_sort(self, data):
+        self.title = "Insertion Sort"
+        for i in range(1, len(data)):
+            key = data[i]
+            
+            j = i - 1
+            while j >= 0 and key < data[j]:
+                data[j+1] = data[j]
+                j -= 1
+            data[j+1] = key
+        
             self.refresh_graph(data)
         return data
 
