@@ -16,10 +16,12 @@ from matplotlib.figure import Figure
 class App(tk.Tk):
     def __init__(self, parent):
         tk.Tk.__init__(self, parent)
+        self.title("Sorting Algorithm Visualisation")
         self.data = []
         for i in range(100):
             self.data.append(random.randint(0, 1000))
 
+        self.title = ""
         self.Fig = matplotlib.figure.Figure(figsize=(5,4),dpi=100)
         self.FigSubPlot = self.Fig.add_subplot(111)
         self.graph = self.FigSubPlot.bar(np.arange(len(self.data)), self.data, align='center', alpha=0.5)
@@ -30,6 +32,7 @@ class App(tk.Tk):
     
     def refresh_graph(self, data):
         self.FigSubPlot.clear()
+        self.FigSubPlot.set_title(self.title)
         self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5)
         self.canvas.draw()
         
@@ -37,7 +40,7 @@ class App(tk.Tk):
         self.selection_sort(self.data)
         
     def bubble_sort(self, data):
-        title = "Bubble Sort"
+        self.title = "Bubble Sort"
         n = len(data)
         swap = False
     
@@ -54,7 +57,7 @@ class App(tk.Tk):
         return data
     
     def selection_sort(self, data):
-        title = "Selection Sort"
+        self.title = "Selection Sort"
         for i in range(len(data)):
             min_index = i
             for j in range(i+1, len(data)):
@@ -67,7 +70,7 @@ class App(tk.Tk):
         return data
     
     def merge_sort(self, data):
-        title = "Merge Sort"
+        self.title = "Merge Sort"
         if len(data) > 1:
             mid = len(data)//2
             l = data[:mid]
