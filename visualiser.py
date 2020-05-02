@@ -13,6 +13,8 @@ matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+COLOR = "#22324d"
+
 class App(tk.Tk):
     def __init__(self, parent):
         tk.Tk.__init__(self, parent)
@@ -27,10 +29,13 @@ class App(tk.Tk):
         self.title = ""
         self.isSorted = False
         self.Fig = matplotlib.figure.Figure(figsize=(5,4),dpi=100)
+        self.Fig.patch.set_facecolor(COLOR)
         self.FigSubPlot = self.Fig.add_subplot(111)
+        self.FigSubPlot.set_facecolor(COLOR)
+        self.FigSubPlot.tick_params(color='white', labelcolor='white')
         self.graph = self.FigSubPlot.bar(np.arange(len(self.data)), self.data, align='center', alpha=0.5)
-        self.FigSubPlot.set_xlabel('List Size', fontsize = 10)
-        self.FigSubPlot.set_ylabel('Data Values', fontsize = 8)
+        self.FigSubPlot.set_xlabel('List Size', fontsize = 18, color='white')
+        self.FigSubPlot.set_ylabel('Data Values', fontsize = 18, color='white')
         self.canvas = FigureCanvasTkAgg(self.Fig, master=self)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
     
@@ -39,7 +44,11 @@ class App(tk.Tk):
         buttonSelectionSort = tk.Button(self, text="Selection Sort", command=self.start_selection).pack(side=tk.LEFT)
         buttonMergeSort = tk.Button(self, text="Merge Sort", command=self.start_merge).pack(side=tk.LEFT)
         buttonInsertionSort = tk.Button(self, text="Insertion Sort", command=self.start_insertion).pack(side=tk.LEFT)
+        buttonClose = tk.Button(self, text="Exit", command=self.stop).pack(side=tk.RIGHT)
     
+    def stop(self):
+        self.destroy()
+        
     def newData(self):
         self.data = []
         for i in range(self.data_length):
@@ -50,13 +59,13 @@ class App(tk.Tk):
         
     def refresh_graph(self, data):
         self.FigSubPlot.clear()
-        self.FigSubPlot.set_title(self.title)
-        self.FigSubPlot.set_xlabel('List Size', fontsize = 10)
-        self.FigSubPlot.set_ylabel('Data Values', fontsize = 8)
+        self.FigSubPlot.set_title(self.title, color='white', fontsize = 24)
+        self.FigSubPlot.set_xlabel('List Size', fontsize = 18)
+        self.FigSubPlot.set_ylabel('Data Values', fontsize = 18)
         if self.isSorted == False:
             self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5)
         else:
-            self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5, color="g")
+            self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5, color="#41bf73")
         self.canvas.draw()
         
     def start_selection(self):
@@ -174,4 +183,5 @@ class App(tk.Tk):
 
 if __name__ == "__main__":
     app = App(None)
+    app.attributes('-fullscreen', True)
     app.mainloop()
