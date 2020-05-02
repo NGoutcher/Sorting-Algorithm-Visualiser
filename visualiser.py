@@ -22,22 +22,51 @@ class App(tk.Tk):
             self.data.append(random.randint(0, 1000))
 
         self.title = ""
+        self.isSorted = False
         self.Fig = matplotlib.figure.Figure(figsize=(5,4),dpi=100)
         self.FigSubPlot = self.Fig.add_subplot(111)
         self.graph = self.FigSubPlot.bar(np.arange(len(self.data)), self.data, align='center', alpha=0.5)
         self.canvas = FigureCanvasTkAgg(self.Fig, master=self)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
     
-        button = tk.Button(self, text="Start", command=self.start).pack(side=tk.TOP)
+        buttonNewData = tk.Button(self, text="Reset Data", command=self.newData).pack(side=tk.LEFT)
+        buttonBubbleSort = tk.Button(self, text="Bubble Sort", command=self.start_bubble).pack(side=tk.LEFT)
+        buttonSelectionSort = tk.Button(self, text="Selection Sort", command=self.start_selection).pack(side=tk.LEFT)
+        buttonMergeSort = tk.Button(self, text="Merge Sort", command=self.start_merge).pack(side=tk.LEFT)
     
+    def newData(self):
+        self.data = []
+        for i in range(100):
+            self.data.append(random.randint(0, 1000))
+            
+        self.refresh_graph(self.data)
+        
     def refresh_graph(self, data):
         self.FigSubPlot.clear()
         self.FigSubPlot.set_title(self.title)
         self.graph = self.FigSubPlot.bar(np.arange(len(data)), data, align='center', alpha=0.5)
         self.canvas.draw()
         
-    def start(self):
+    def start_selection(self):
+        if self.isSorted:
+            self.newData()
+            self.isSorted = False
         self.selection_sort(self.data)
+        self.isSorted = True
+        
+    def start_bubble(self):
+        if self.isSorted:
+            self.newData()
+            self.isSorted = False
+        self.bubble_sort(self.data)
+        self.isSorted = True
+        
+    def start_merge(self):
+        if self.isSorted:
+            self.newData()
+            self.isSorted = False
+        self.merge_sort(self.data)
+        self.isSorted = True
         
     def bubble_sort(self, data):
         self.title = "Bubble Sort"
