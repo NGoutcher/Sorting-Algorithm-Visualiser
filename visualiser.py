@@ -13,7 +13,7 @@ matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-COLOR = "#22324d"
+COLOR = "#1a1a26"
 
 class App(tk.Tk):
     def __init__(self, parent):
