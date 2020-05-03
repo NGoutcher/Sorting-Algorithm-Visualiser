@@ -12,6 +12,7 @@ import tkinter as tk
 matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+from tkinter import Scale, Label
 
 COLOR = "#1a1a26"
 
@@ -22,8 +23,9 @@ class App(tk.Tk):
         self.data = []
         self.unsorted_data = []
         self.data_length = 51
+        self.data_highest_val = 1000
         for i in range(self.data_length):
-            self.data.append(random.randint(0, 1000))
+            self.data.append(random.randint(0, self.data_highest_val))
         self.unsorted_data = self.data.copy()
         
         self.title = ""
@@ -38,6 +40,18 @@ class App(tk.Tk):
         self.FigSubPlot.set_ylabel('Data Values', fontsize = 18, color='white')
         self.canvas = FigureCanvasTkAgg(self.Fig, master=self)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        
+        listSizeLabel = Label(self, text="Size of List:", font=("Courier", 16)).pack()
+        self.listSizeSlider = Scale(self, from_=1, to=100, orient="horizontal", length=200)
+        self.listSizeSlider.pack()
+        self.listSizeSlider.set(self.data_length - 1)
+        
+        listHighesValueLabel = Label(self, text="Highest Value:", font=("Courier", 16)).pack()
+        self.listHighestValueSlider = Scale(self, from_=0, to=1000, orient="horizontal", length=200)
+        self.listHighestValueSlider.pack()
+        self.listHighestValueSlider.set(self.data_highest_val)
+        
+        buttonNewDataFromSlider = tk.Button(self, text="Apply", command=self.newDataFromSlider).pack()
     
         buttonNewData = tk.Button(self, text="Reset Data", command=self.newData).pack(side=tk.LEFT)
         buttonBubbleSort = tk.Button(self, text="Bubble Sort", command=self.start_bubble).pack(side=tk.LEFT)
@@ -50,9 +64,21 @@ class App(tk.Tk):
         self.destroy()
         
     def newData(self):
+        self.title=""
         self.data = []
+        self.listSizeSlider.set(self.data_length - 1)
+        self.listHighestValueSlider.set(self.data_highest_val)
         for i in range(self.data_length):
-            self.data.append(random.randint(0, 1000))
+            self.data.append(random.randint(0, self.data_highest_val))
+        self.unsorted_data = self.data.copy()
+        self.isSorted = False
+        self.refresh_graph(self.data)
+        
+    def newDataFromSlider(self):
+        self.title=""
+        self.data = []
+        for i in range(self.listSizeSlider.get() + 1):
+            self.data.append(random.randint(0, self.listHighestValueSlider.get()))
         self.unsorted_data = self.data.copy()
         self.isSorted = False
         self.refresh_graph(self.data)
