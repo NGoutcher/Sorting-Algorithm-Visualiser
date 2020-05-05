@@ -41,24 +41,27 @@ class App(tk.Tk):
         self.canvas = FigureCanvasTkAgg(self.Fig, master=self)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
         
-        listSizeLabel = Label(self, text="Size of List:", font=("Courier", 16)).pack()
+        self.listSizeLabel = Label(self, text="Size of List:", font=("Courier", 16)).pack()
         self.listSizeSlider = Scale(self, from_=1, to=100, orient="horizontal", length=200)
         self.listSizeSlider.pack()
         self.listSizeSlider.set(self.data_length - 1)
         
-        listHighesValueLabel = Label(self, text="Highest Value:", font=("Courier", 16)).pack()
+        self.listHighesValueLabel = Label(self, text="Highest Value:", font=("Courier", 16)).pack()
         self.listHighestValueSlider = Scale(self, from_=0, to=1000, orient="horizontal", length=200)
         self.listHighestValueSlider.pack()
         self.listHighestValueSlider.set(self.data_highest_val)
         
-        buttonNewDataFromSlider = tk.Button(self, text="Apply", command=self.newDataFromSlider).pack()
+        self.buttonNewDataFromSlider = tk.Button(self, text="Apply", command=self.newDataFromSlider).pack()
     
-        buttonNewData = tk.Button(self, text="Reset Data", command=self.newData).pack(side=tk.LEFT)
-        buttonBubbleSort = tk.Button(self, text="Bubble Sort", command=self.start_bubble).pack(side=tk.LEFT)
-        buttonSelectionSort = tk.Button(self, text="Selection Sort", command=self.start_selection).pack(side=tk.LEFT)
-        buttonMergeSort = tk.Button(self, text="Merge Sort", command=self.start_merge).pack(side=tk.LEFT)
-        buttonInsertionSort = tk.Button(self, text="Insertion Sort", command=self.start_insertion).pack(side=tk.LEFT)
-        buttonClose = tk.Button(self, text="Exit", command=self.stop).pack(side=tk.RIGHT)
+        buttonWidth = 20
+        buttonHeight = 5
+        font = ("Arial", 9)
+        self.buttonNewData = tk.Button(self, text="Reset Data", command=self.newData, width=buttonWidth, height=buttonHeight, font=font).pack(side=tk.LEFT)
+        self.buttonBubbleSort = tk.Button(self, text="Bubble Sort", command=self.start_bubble, width=buttonWidth, height=buttonHeight, font=font).pack(side=tk.LEFT)
+        self.buttonSelectionSort = tk.Button(self, text="Selection Sort", command=self.start_selection, width=buttonWidth, height=buttonHeight, font=font).pack(side=tk.LEFT)
+        self.buttonMergeSort = tk.Button(self, text="Merge Sort", command=self.start_merge, width=buttonWidth, height=buttonHeight, font=font).pack(side=tk.LEFT)
+        self.buttonInsertionSort = tk.Button(self, text="Insertion Sort", command=self.start_insertion, width=buttonWidth, height=buttonHeight, font=font).pack(side=tk.LEFT)
+        self.buttonClose = tk.Button(self, text="Exit", command=self.stop, width=buttonWidth, height=buttonHeight, font=font).pack(side=tk.RIGHT)
     
     def stop(self):
         self.destroy()
